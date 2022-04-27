@@ -1,0 +1,92 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+replicas: 1
+
+image:
+  # -- image repository
+  repository: jaymoulin/jdownloader
+  # -- image pull policy
+  pullPolicy: IfNotPresent
+  # -- image tag
+  tag: 2.0.3
+
+# -- environment variables. See more environment variables in the [emby documentation](https://emby.org/docs)
+# @default -- See below
+env:
+  # -- Set the container timezone
+  TZ: Europe/Warsaw
+  # --Set user ID 
+  USER_ID: 10000
+  # -- Set group ID
+  GROUP_ID: 513
+  DISPLAY_WIDTH: 1980
+  DISPLAY_HEIGHT: 1080
+
+# -- Configures service settings for the chart. Normally this does not need to be modified.
+# @default -- Disabled
+service:
+  main:
+    enabled: true
+    ports:
+      http:
+        port: 5800
+        targetPort: 5800
+
+# -- Enable and configure ingress settings for the chart under this key.
+# @default -- Disabled
+ingress:
+  main:
+    enabled: false
+
+# -- Configures probes for the chart. Normally this does not need to be modified.
+# @default -- Disabled
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+# -- Configure persistence settings for the chart under this key.
+# @default -- See values.yaml
+persistence:
+
+# JDownloader needs persistent data for updates
+  data:
+    enabled: true
+    mountPath: "/opt/JDownloader/app"
+    # existingClaim: jdownloader-data
+    accessMode: ReadWriteOnce
+    size: 256Mi
+
+# JDownloader needs persistent config
+  config:
+    enabled: true
+    mountPath: "/opt/JDownloader/app/cfg"
+    # existingClaim: jdownloader-config
+    accessMode: ReadWriteOnce
+    size: 256Mi
+
+  # -- use NFS for download folders
+  media:
+    enabled: false
+    type: custom
+    volumeSpec:
+      nfs:
+        server: 10.0.0.1
+        path: "/mnt/Media"
+    mountPath: "/opt/JDownloader/Downloads"
+    readOnly: false
+
+# -- Configure Limits for resources
+resources:
+  requests:
+    memory: 256Mi
+    cpu: "0.2"
+#   limits:
+#     memory: 512Mi
