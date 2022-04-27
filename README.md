@@ -10,7 +10,7 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 Once Helm is set up properly, add the repo as follows:
 
 ```console
-helm repo add heseifert https://przemas75.github.io/helm-chart
+helm repo add przemas75 https://przemas75.github.io/helm-chart
 ```
 
 You can then run `helm search repo przemas75` to see the charts.
