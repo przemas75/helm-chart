@@ -7,7 +7,7 @@ kubeVersion: ">=1.18.0-0"
 keywords:
   - jdownloader
   - media
-home: https://github.com/przemas75/helm-chart/tree/main/charts/jdownloader2
+home: https://github.com/przemas75/helm-chart/tree/main/charts/stable/jdownloader2
 icon: https://www.freeiconspng.com/uploads/jdownloader-icon-2.png
 sources:
   - https://hub.docker.com/r/jaymoulin/jdownloader
